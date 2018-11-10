@@ -3,11 +3,11 @@ const tweetButton = document.getElementById('tweet-button');
 
 quoteButton.addEventListener('click', getQuote);
 
-const endpoint = 'http://quotes.rest/qod';
+const endpoint = 'https://talaikis.com/api/quotes/random/';
 
 function getQuote() {
     // create a request variable and assign to new XMLHttpRequest to it
-    var request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
 
     // Open a new connection using the GET request
     request.open('GET', endpoint, true);
@@ -15,8 +15,9 @@ function getQuote() {
     request.onload = function() {
         // Access JSON data here
         if(this.status == 200) {
-            var quote = JSON.parse(this.responseText);
-            console.log(quote);
+            const quote = JSON.parse(this.response);
+            const displayQuote = document.querySelector('.item');
+            displayQuote.textContent = quote.quote;
         }
     }
     // Send Request
