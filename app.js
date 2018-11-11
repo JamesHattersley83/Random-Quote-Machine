@@ -1,7 +1,8 @@
 const quoteButton = document.getElementById('quote-button');
-const tweetButton = document.getElementById('tweet-button');
+const tweetButton = document.querySelector('.tweet-button');
 
 quoteButton.addEventListener('click', getQuote);
+tweetButton.addEventListener('click', tweetQuote);
 
 const endpoint = 'https://talaikis.com/api/quotes/random/';
 
@@ -18,9 +19,15 @@ function getQuote() {
             const quote = JSON.parse(this.response);
             const displayQuote = document.querySelector('.item');
             displayQuote.textContent = quote.quote;
+        } else {
+            console.log('An error has occurred');
         }
     }
     // Send Request
     request.send();
 }
 
+function tweetQuote() {
+    tweetButton.setAttribute('href', `https://twitter.com/share`);
+    console.log('tweet button clicked');
+}
