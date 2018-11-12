@@ -16,9 +16,14 @@ function getQuote() {
     request.onload = function() {
         // Access JSON data here
         if(this.status == 200) {
-            const quote = JSON.parse(this.response);
+            const quoteText = JSON.parse(this.response);
+            // display quote text
             const displayQuote = document.querySelector('.item');
-            displayQuote.textContent = quote.quote;
+            displayQuote.textContent = quoteText.quote;
+
+            // display quote author
+            const displayAuthor = document.querySelector('.author');
+            displayAuthor.textContent = quoteText.author;
         } else {
             console.log('An error has occurred');
         }
@@ -29,5 +34,4 @@ function getQuote() {
 
 function tweetQuote() {
     tweetButton.setAttribute('href', `https://twitter.com/share`);
-    console.log('tweet button clicked');
 }
