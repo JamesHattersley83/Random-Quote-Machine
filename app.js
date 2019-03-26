@@ -1,39 +1,38 @@
-const quoteButton = document.querySelector('#quote-button');
-const tweetButton = document.querySelector('.tweet-button');
+const quoteButton = document.querySelector("#quote-button");
+const tweetButton = document.querySelector(".tweet-button");
 
-quoteButton.addEventListener('click', getQuote);
+quoteButton.addEventListener("click", getQuote);
 
-const endpoint = 'https://talaikis.com/api/quotes/random/';
+const url =
+  "https://cors-anywhere.herokuapp.com/https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
 
+// Get div where quote will display
+const displayQuote = document.querySelector(".item");
+
+const displayAuthor = document.querySelector(".author");
+
+// Use fetch API to get data
 function getQuote() {
-    // create a request variable and assign to new XMLHttpRequest to it
-    const request = new XMLHttpRequest();
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // display quote text
+      displayQuote.textContent = data.quoteText;
+      // display quote Author
+      displayAuthor.textContent = data.quoteAuthor;
 
-    // Open a new connection using the GET request
-    request.open('GET', endpoint, true);
-
-    request.onload = function() {
-        // Access JSON data here
-        if(this.status == 200) {
-            const quoteText = JSON.parse(this.response);
-
-            // display quote text
-            const displayQuote = document.querySelector('.item');
-            displayQuote.textContent = quoteText.quote;
-
-            // display quote author
-            const displayAuthor = document.querySelector('.author');
-            displayAuthor.textContent = quoteText.author;
-
-            // Tweet quote
-            tweetButton.addEventListener('click', function() {
-                tweetButton.setAttribute('href', 'https://twitter.com/intent/tweet/?text=' + quoteText.quote + '- ' + quoteText.author);
-            });
-        } else {
-            console.log('An error has occurred');
-        }
-    }
-    // Send Request
-    request.send();
+      // Tweet Quote
+      tweetButton.addEventListener("click", () => {
+        tweetButton.setAttribute(
+          "href",
+          "https://twitter.com/intent/tweet/?text=" +
+            data.quoteText +
+            "- " +
+            data.quoteAuthor
+        );
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
-
